@@ -19,6 +19,7 @@ export default function Timeline({ year, setYear }: { year: number; setYear: Fun
         <InputGroup.Text>年份</InputGroup.Text>
         <Form.Control
           type="number"
+          disabled
           min={Math.min(...availableYears)}
           max={Math.max(...availableYears)}
           value={year}

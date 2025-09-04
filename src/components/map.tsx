@@ -1,4 +1,10 @@
-import { MapContainer, TileLayer, LayersControl, Polyline, Tooltip } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  LayersControl,
+  Polyline,
+  Tooltip,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Line } from "../types";
 
@@ -11,7 +17,18 @@ interface MapProps {
 
 export default function Map({ lines }: MapProps) {
   return (
-    <MapContainer center={[39.90403, 116.40753]} zoom={10} style={{ height: "100vh" }}>
+    <MapContainer
+      center={[39.90403, 116.40753]}
+      zoom={10}
+      minZoom={8}
+      maxZoom={13}
+      maxBoundsViscosity={1.0}
+      maxBounds={[
+        [38.632, 114.72],
+        [41.278, 119.036],
+      ]}
+      style={{ height: "100vh" }}
+    >
       <LayersControl position="topright">
         {/* 底图选择 */}
         <BaseLayer name="矢量">
@@ -58,13 +75,7 @@ export default function Map({ lines }: MapProps) {
 
       {/* 渲染线路 */}
       {lines.map((line, idx) => (
-        <Polyline
-          key={idx}
-          positions={line.coords}
-          color="red"
-          weight={3}
-          opacity={0.8}
-        >
+        <Polyline key={idx} positions={line.coords} color="black" weight={5}>
           <Tooltip direction="top" sticky>
             <div>
               <strong>{line.name}</strong>
