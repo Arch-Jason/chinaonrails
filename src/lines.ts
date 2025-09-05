@@ -1,12 +1,20 @@
-import { lines_1865 } from "./data/lines/1865";
-import { lines_1870 } from "./data/lines/1870";
-import { lines_1880 } from "./data/lines/1880";
+import { lines_1881 } from "./data/lines/1881";
+import { lines_1887 } from "./data/lines/1887";
+import { lines_1888 } from "./data/lines/1888";
 import { lines_1890 } from "./data/lines/1890";
+import { lines_1892 } from "./data/lines/1892";
+import { lines_1894 } from "./data/lines/1894";
+import { lines_1896 } from "./data/lines/1896";
+import { lines_1898 } from "./data/lines/1898";
 import { Line } from "./types";
 
 export const lines: { [key: number]: Line[] } = {
-  1865: lines_1865,
-  1870: lines_1870,
-  1880: lines_1880,
+  1881: lines_1881,
+  1887: lines_1887,
+  1888: lines_1888,
   1890: lines_1890,
+  1892: lines_1892,
+  1894: lines_1894,
+  1896: lines_1896,
+  1898: lines_1898,
 };

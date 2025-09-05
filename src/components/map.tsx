@@ -19,13 +19,13 @@ export default function Map({ lines }: MapProps) {
   return (
     <MapContainer
       center={[39.90403, 116.40753]}
-      zoom={10}
+      zoom={9}
       minZoom={8}
       maxZoom={13}
       maxBoundsViscosity={1.0}
       maxBounds={[
         [38.632, 114.72],
-        [41.278, 119.036],
+        [41.278, 120.036],
       ]}
       style={{ height: "100vh" }}
     >
@@ -75,7 +75,7 @@ export default function Map({ lines }: MapProps) {
 
       {/* 渲染线路 */}
       {lines.map((line, idx) => (
-        <Polyline key={idx} positions={line.coords} color="black" weight={5}>
+        <Polyline key={idx} positions={line.coords} color="red" weight={5}>
           <Tooltip direction="top" sticky>
             <div>
               <strong>{line.name}</strong>
