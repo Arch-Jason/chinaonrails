@@ -189,13 +189,13 @@ export default function Map({ lines }: { lines: Line[] }) {
       <MapContainer
         center={[39.90403, 116.40753]}
         zoom={6}
-        minZoom={5}
-        maxZoom={13}
-        maxBoundsViscosity={1.0}
-        maxBounds={[
-          [38.632, 114.72],
-          [41.278, 120.036],
-        ]}
+        // minZoom={5}
+        // maxZoom={13}
+        // maxBoundsViscosity={1.0}
+        // maxBounds={[
+        //   [38.632, 114.72],
+        //   [41.278, 120.036],
+        // ]}
         style={{ height: "100vh" }}
       >
         <LayersControl position="topright">
