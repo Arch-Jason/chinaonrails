@@ -5,6 +5,7 @@ import cors from "cors";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import { v4 as uuidv4 } from "uuid";
 
 // ==== 基础设置 ====
 const __filename = fileURLToPath(import.meta.url);
@@ -44,8 +45,10 @@ const SharePoint = mongoose.model("SharePoint", SharePointSchema);
 // ==== 图片上传配置 ====
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, path.join(__dirname, "uploads")),
-  filename: (req, file, cb) =>
-    cb(null, Date.now() + "-" + file.originalname),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname); // 保留原始扩展名
+    cb(null, uuidv4() + ext);
+  },
 });
 const upload = multer({ storage });
 
