@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import multer from "multer";
 import cors from "cors";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 
 // ==== 基础设置 ====
@@ -13,6 +14,7 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+app.set("trust proxy", true);
 
 // ==== MongoDB 连接 ====
 mongoose.connect("mongodb://127.0.0.1:27017/mapshare", {
@@ -47,8 +49,23 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// 提供静态文件服务：让前端能访问 http://localhost:4000/uploads/xxx.png
+// 提供静态文件服务：让前端能访问 http://localhost:3000/uploads/xxx.png
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// ==== 访问日志中间件 ====
+const logFile = path.join(__dirname, "api_access_log.csv");
+// 如果文件不存在，先写入表头
+if (!fs.existsSync(logFile)) {
+  fs.writeFileSync(logFile, "url,method,ip\n", "utf8");
+}
+
+app.use((req, res, next) => {
+  const logLine = `${req.originalUrl},${req.method},${req.ip}\n`;
+  fs.appendFile(logFile, logLine, (err) => {
+    if (err) console.error("日志写入失败:", err);
+  });
+  next();
+});
 
 // ==== API 接口 ====
 
