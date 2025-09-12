@@ -125,7 +125,7 @@ interface SharePoint {
   comments: Comment[];
 }
 
-export default function Map({ lines }: { lines: Line[] }) {
+export default function Map({ lines, showSharePoints, showLines }: { lines: Line[], showSharePoints: boolean, showLines: boolean }) {
   const [points, setPoints] = useState<SharePoint[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [newPoint, setNewPoint] = useState<Partial<SharePoint>>({});
@@ -298,7 +298,7 @@ export default function Map({ lines }: { lines: Line[] }) {
         </LayersControl>
 
         {/* 渲染线路 (WGS84 → GCJ02) */}
-        {lines.map((line, idx) => (
+        {lines.map((line, idx) => showLines ? (
           <Polyline
             key={idx}
             positions={line.coords.map((coord: LatLngExpression) => {
@@ -315,12 +315,12 @@ export default function Map({ lines }: { lines: Line[] }) {
               </div>
             </Tooltip>
           </Polyline>
-        ))}
+        ) : null)}
 
         {/* 渲染分享点 (WGS84 → GCJ02) */}
         {points.map((p, idx) => {
           const [lat, lon] = wgs84ToGcj02(p.lon, p.lat);
-          return (
+          return showSharePoints ? (
             <Marker
               key={idx}
               position={[lat, lon]}
@@ -456,7 +456,7 @@ export default function Map({ lines }: { lines: Line[] }) {
                 </Card>
               </Popup>
             </Marker>
-          );
+          ) : null;
         })}
 
         <LocationSelector />
