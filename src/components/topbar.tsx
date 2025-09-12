@@ -9,11 +9,13 @@ export default function Topbar({ setShowSharePoints, setShowLines }: {setShowSha
             </div>
             <Form id="switch">
                 <Form.Check
+                    defaultChecked
                     type="switch"
-                    label="线路历史发展地图"
+                    label="线路历史发展"
                     onChange={e => setShowLines(e.target.checked)}
                 />
                 <Form.Check
+                    defaultChecked
                     type="switch"
                     label="拍车机位分享"
                     onChange={e => setShowSharePoints(e.target.checked)}
