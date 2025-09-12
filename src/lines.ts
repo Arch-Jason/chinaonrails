@@ -6,6 +6,7 @@ import { lines_1892 } from "./data/lines/1892";
 import { lines_1894 } from "./data/lines/1894";
 import { lines_1896 } from "./data/lines/1896";
 import { lines_1898 } from "./data/lines/1898";
+import { lines_1899 } from "./data/lines/1899";
 import { Line } from "./types";
 
 export const lines: { [key: number]: Line[] } = {
@@ -17,4 +18,5 @@ export const lines: { [key: number]: Line[] } = {
   1894: lines_1894,
   1896: lines_1896,
   1898: lines_1898,
+  1899: lines_1899,
 };

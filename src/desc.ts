@@ -7,6 +7,7 @@ import { desc_1881 } from "./data/desc/1881";
 import { desc_1887 } from "./data/desc/1887";
 import { desc_1890 } from "./data/desc/1890";
 
+
 export const desc: { [key: number]: string } = {
   1892: desc_1892,
   1894: desc_1894,
