@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { lines } from "../lines";
 
-export default function Timeline({ year, setYear }: { year: number; setYear: Function }) {
+export default function Timeline({ year, setYear, showLines }: { year: number; setYear: Function, showLines: boolean }) {
   const availableYears = Object.keys(lines).map(Number);
 
   const handleChange = (value: number) => {
@@ -13,7 +13,7 @@ export default function Timeline({ year, setYear }: { year: number; setYear: Fun
     setYear(nearestYear);
   };
 
-  return (
+  return showLines ? (
     <div id="timeline">
       <InputGroup id="yearNum">
         <InputGroup.Text>年份</InputGroup.Text>
@@ -35,5 +35,5 @@ export default function Timeline({ year, setYear }: { year: number; setYear: Fun
         onChange={e => handleChange(Number(e.target.value))}
       />
     </div>
-  );
+  ) : null;
 }

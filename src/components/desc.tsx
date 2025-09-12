@@ -1,10 +1,10 @@
-export default function Desc({ desc }: { desc: string }) {
+export default function Desc({ desc, showLines }: { desc: string, showLines: boolean }) {
   console.log(desc);
-  return (
+  return showLines ? (
     <div id="desc">
     {desc.split(/\n/).map((p, i) => (
         <p key={i}>{p}</p>
     ))}
     </div>
-  );
+  ) : null;
 }

@@ -19,9 +19,9 @@ function App() {
   return (
     <div className="App">
         <Topbar setShowSharePoints={setShowSharePoints} setShowLines={setShowLines} />
-        <Timeline year={year} setYear={setYear} />
+        <Timeline year={year} setYear={setYear} showLines={showLines} />
         <Map lines={currentLines} showSharePoints={showSharePoints} showLines={showLines} />
-        <Desc desc={currentDesc} />
+        <Desc desc={currentDesc} showLines={showLines} />
     </div>
   );
 }
