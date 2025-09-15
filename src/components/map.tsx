@@ -123,6 +123,7 @@ interface SharePoint {
   desc: string;
   images: string[];
   comments: Comment[];
+  timestamp: Date | undefined
 }
 
 export default function Map({ lines, showSharePoints, showLines }: { lines: Line[], showSharePoints: boolean, showLines: boolean }) {
@@ -167,6 +168,7 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
       desc: newPoint.desc || "",
       images: newPoint.images || [],
       comments: [],
+      timestamp: undefined
     };
 
     const res = await fetch(`${API_BASE}/api/points`, {
@@ -335,6 +337,7 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
                 <Card style={{ width: "18rem" }}>
                   <Card.Body>
                     <Card.Title>{p.name}</Card.Title>
+                    <Card.Text>{new Date(p.timestamp!).toLocaleString()}</Card.Text>
                     <Card.Text>{p.desc}</Card.Text>
                     {p.images.map((img, i) => (
                       <Image

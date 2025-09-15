@@ -38,6 +38,7 @@ const SharePointSchema = new mongoose.Schema({
   desc: String,
   images: [String],
   comments: [CommentSchema],
+  timestamp: { type: Date, default: Date.now }
 });
 
 const SharePoint = mongoose.model("SharePoint", SharePointSchema);
