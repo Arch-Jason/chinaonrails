@@ -12,6 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
+const DEL_PASS = "8f6cfb3e-07e1-484f-b448-f5c69c8418b3";
 
 app.use(cors());
 app.use(express.json());
@@ -92,8 +93,12 @@ app.post("/api/points", async (req, res) => {
   res.json(point);
 });
 
-// 删除分享点
 app.delete("/api/points/:id", async (req, res) => {
+  const { password } = req.body; // 从请求体获取密码
+  if (password !== "8f6cfb3e-07e1-484f-b448-f5c69c8418b3") {
+    return res.status(403).json({ success: false, message: "密码错误" });
+  }
+
   await SharePoint.findByIdAndDelete(req.params.id);
   res.json({ success: true });
 });
