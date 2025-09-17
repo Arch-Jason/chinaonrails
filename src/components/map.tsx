@@ -18,6 +18,7 @@ import {
   Card,
   ListGroup,
   Image,
+  Spinner,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Line } from "../types";
@@ -139,6 +140,8 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
   const [showImageModal, setShowImageModal] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
 
+  const [uploading, setUploading] = useState(false); // 上传中状态
+
   // 初始化加载所有分享点
   useEffect(() => {
     fetch(`${API_BASE}/api/points`)
@@ -192,16 +195,21 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
       formData.append("files", file);
     });
 
-    const res = await fetch(`${API_BASE}/api/upload`, {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
+    setUploading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/upload`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
 
-    setNewPoint({
-      ...newPoint,
-      images: [...(newPoint.images || []), ...data.urls],
-    });
+      setNewPoint({
+        ...newPoint,
+        images: [...(newPoint.images || []), ...data.urls],
+      });
+    } finally {
+      setUploading(false);
+    }
   };
 
   // 评论图片上传
@@ -216,19 +224,24 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
       formData.append("files", file);
     });
 
-    const res = await fetch(`${API_BASE}/api/upload`, {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
+    setUploading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/upload`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
 
-    setCommentInputs({
-      ...commentInputs,
-      [idx]: {
-        ...commentInputs[idx],
-        images: [...(commentInputs[idx]?.images || []), ...data.urls],
-      },
-    });
+      setCommentInputs({
+        ...commentInputs,
+        [idx]: {
+          ...commentInputs[idx],
+          images: [...(commentInputs[idx]?.images || []), ...data.urls],
+        },
+      });
+    } finally {
+      setUploading(false);
+    }
   };
 
   // 提交评论
@@ -299,7 +312,7 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
           </Overlay>
         </LayersControl>
 
-        {/* 渲染线路 (WGS84 → GCJ02) */}
+        {/* 渲染线路 */}
         {lines.map((line, idx) => showLines ? (
           <Polyline
             key={idx}
@@ -319,7 +332,7 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
           </Polyline>
         ) : null)}
 
-        {/* 渲染分享点 (WGS84 → GCJ02) */}
+        {/* 渲染分享点 */}
         {points.map((p, idx) => {
           const [lat, lon] = wgs84ToGcj02(p.lon, p.lat);
           return showSharePoints ? (
@@ -333,8 +346,8 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
                 iconAnchor: [12, 41],
               })}
             >
-              <Popup maxWidth={300}>
-                <Card style={{ width: "18rem" }}>
+              <Popup>
+                <Card>
                   <Card.Body>
                     <Card.Title>{p.name}</Card.Title>
                     <Card.Text>{new Date(p.timestamp!).toLocaleString()}</Card.Text>
@@ -344,17 +357,12 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
                         key={i}
                         src={`${API_BASE}${img}`}
                         thumbnail
-                        style={{
-                          maxHeight: "100px",
-                          margin: "5px",
-                          cursor: "pointer",
-                        }}
                         onClick={() => handleImageClick(`${API_BASE}${img}`)}
                       />
                     ))}
                     <hr />
                     <h6>评论</h6>
-                    <ListGroup variant="flush">
+                    <ListGroup variant="flush" id="comments-div">
                       {p.comments.map((c, i) => (
                         <ListGroup.Item key={i}>
                           <div>
@@ -540,6 +548,14 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
           {currentImage && (
             <Image src={currentImage} fluid style={{ maxHeight: "80vh" }} />
           )}
+        </Modal.Body>
+      </Modal>
+
+      {/* 上传中 Modal */}
+      <Modal show={uploading} centered backdrop="static" keyboard={false}>
+        <Modal.Body className="text-center">
+          <Spinner animation="border" role="status" />
+          <div className="mt-3">上传中，请稍候...</div>
         </Modal.Body>
       </Modal>
     </>
