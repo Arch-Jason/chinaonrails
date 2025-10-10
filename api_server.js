@@ -61,11 +61,12 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const logFile = path.join(__dirname, "api_access_log.csv");
 // 如果文件不存在，先写入表头
 if (!fs.existsSync(logFile)) {
-  fs.writeFileSync(logFile, "url,method,ip\n", "utf8");
+  fs.writeFileSync(logFile, "url,method,ip,time\n", "utf8");
 }
 
 app.use((req, res, next) => {
-  const logLine = `${req.originalUrl},${req.method},${req.ip}\n`;
+  const localDateTimeString = (new Date()).toLocaleString();
+  const logLine = `${req.originalUrl},${req.method},${req.ip},${localDateTimeString}\n`;
   fs.appendFile(logFile, logLine, (err) => {
     if (err) console.error("日志写入失败:", err);
   });
@@ -88,6 +89,7 @@ app.get("/api/points", async (req, res) => {
 
 // 新建分享点
 app.post("/api/points", async (req, res) => {
+  if (req.ip === "175.167.91.51") return;
   const point = new SharePoint(req.body);
   await point.save();
   res.json(point);
