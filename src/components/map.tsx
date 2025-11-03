@@ -24,7 +24,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Line } from "../types";
 
 const { BaseLayer, Overlay } = LayersControl;
-const API_BASE = "https://chinaonrails.org:4000"; // 后端 API 地址
+const API_BASE = "https://chinaonrails.org/api"; // 后端 API 地址
 
 // ===== 坐标转换函数 (WGS84 → GCJ-02) =====
 function outOfChina(lon: number, lat: number) {
