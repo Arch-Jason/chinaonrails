@@ -32,6 +32,9 @@ function App() {
         <Modal.Body>
           <p>请您做一名有素质的火车迷，不乱上传点位。谢谢。</p>
           <a href="mailto:report@chinaonrails.org">点我发送反馈邮件</a>
+          <hr />
+          <p>如果感觉还不错，给开发者奖励一下呗。谢谢喵！</p>
+          <img width={200} src="/code.png" alt="打赏码" />
         </Modal.Body>
       </Modal>
       <Topbar setShowSharePoints={setShowSharePoints} setShowLines={setShowLines} />
