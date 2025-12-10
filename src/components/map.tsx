@@ -363,7 +363,12 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
                     <hr />
                     <h6>评论</h6>
                     <ListGroup variant="flush" id="comments-div">
-                      {p.comments.map((c, i) => (
+                      {p.comments.map((c, i) => {
+                        if (!c?.username || !c?.timestamp || !c?.images || !c?.contents) {
+                          console.log("坏人，不要毁掉我的网站😡: ", c);
+                          return;
+                        }
+                        return (
                         <ListGroup.Item key={i}>
                           <div>
                             <strong>{c.username}</strong>
@@ -388,7 +393,7 @@ export default function Map({ lines, showSharePoints, showLines }: { lines: Line
                             ))}
                           </div>
                         </ListGroup.Item>
-                      ))}
+                      );})}
                     </ListGroup>
 
                     <hr />
